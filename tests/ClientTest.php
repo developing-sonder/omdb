@@ -6,12 +6,13 @@ use PHPUnit\Framework\TestCase;
 use DevelopingSonder\Omdb\Omdb;
 use DevelopingSonder\Omdb\Query;
 
-class ExampleTest extends TestCase
+class ClientTest extends TestCase
 {
    /** @test */
    public function can_create_client()
    {
        $client = new Omdb;
+       $this->assertInstanceOf(Omdb::class, $client);
    }
 
     /** @test */
