@@ -18,7 +18,11 @@ composer require developing-sonder/omdb
 ## Usage
 
 ``` php
-// Usage description here
+$omdb = new Omdb;
+$shawshank = $omdb->byId('The Shawshank Redemption');
+
+$theMatrix =
+
 ```
 
 ### Testing
@@ -26,6 +30,19 @@ composer require developing-sonder/omdb
 ``` bash
 composer test
 ```
+
+### Road Map
+#### v0.1
+* Client Object 
+* Query Object
+* Search Endpoint
+* By Id Endpoint
+* By Title Endpoint (Same as By Id)
+
+#### v0.2
+* Response converted to Custom Object
+* Movie Resource Created
+* Movie Resource returned by non-Search endpoints. 
 
 ### Changelog
 
