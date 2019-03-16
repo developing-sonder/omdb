@@ -13,4 +13,56 @@ class Query
 {
     protected $options;
     protected $searchTerm;
+
+    public function __construct($options = [])
+    {
+        $this->options = collect($options);
+    }
+
+    public function toUrl(): Array
+    {
+        return ['query' => $this->parameters()];
+    }
+
+
+    public function parameters()
+    {
+        return $this->options->flatten()->all();
+    }
+
+    public function setType($type): Query
+    {
+        $this->options->set('t', $type);
+        return $this;
+    }
+
+    public function setReleaseYear($year): Query
+    {
+        $this->options->set('y', $year);
+        return $this;
+    }
+
+    public function setPage($page): Query
+    {
+        if(!is_int($page) || !$this->isBetween($page))
+            throw \Exception("The page variable must be an integer between 1 and 100 (inclusive). The value you provided was: $page");
+
+        $this->options->set('page', $page);
+        return $this;
+    }
+
+    public function __set($name, $value)
+    {
+        $this->options->set($name, $value);
+    }
+
+    public function __get($name)
+    {
+        return $this->options->get($name);
+    }
+
+    private function isBetween($page): bool
+    {
+        return $page >= 1 && $page <= 100;
+    }
 }
