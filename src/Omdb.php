@@ -7,6 +7,7 @@ use DevelopingSonder\Omdb\Http\Connection;
 class Omdb
 {
     public $query;
+    const SEARCH_ENDPOINT = 'search';
 
     public function __construct(Query $query = null)
     {
@@ -18,16 +19,18 @@ class Omdb
         if($q instanceof Query)
         {
             $this->query = $q;
-            return $this->makeCall();
         }
 
+        //-- Query Setup
         $this->query->setSearchTerm($q);
-        $this->query->addOptions = $options;
+        $this->query->addOptions($options);
+
+        return $this->makeCall($this->query->toUrl());
     }
 
-    public function makeCall()
+    public function makeCall($options = null)
     {
         $connection = Connection::instance();
-        return $connection->get();
+        return $connection->get($options);
     }
 }

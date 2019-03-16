@@ -12,11 +12,15 @@ namespace DevelopingSonder\Omdb;
 class Query
 {
     protected $options;
-    protected $searchTerm;
 
     public function __construct($options = [])
     {
         $this->options = collect($options);
+    }
+
+    public function setSearchTerm($term)
+    {
+        $this->options->put('s', $term);
     }
 
     public function toUrl(): Array
@@ -24,10 +28,14 @@ class Query
         return ['query' => $this->parameters()];
     }
 
+    public function addOptions($options)
+    {
+        $this->options->merge($options);
+    }
 
     public function parameters()
     {
-        return $this->options->flatten()->all();
+        return $this->options->all();
     }
 
     public function setType($type): Query
@@ -53,7 +61,7 @@ class Query
 
     public function __set($name, $value)
     {
-        $this->options->set($name, $value);
+        $this->options->put($name, $value);
     }
 
     public function __get($name)

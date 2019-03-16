@@ -31,23 +31,22 @@ class Connection
     {
         $this->options = [
             'query' => [
-                'apikey' => getenv('OMDB_API_KEY')
+                'apikey' => 'b5976b7'
             ]
         ];
 
-        $this->guzzleClient = new GuzzleClient([
-            "base_uri" => "http://www.omdbapi.com",
-        ]);
+        $this->guzzleClient = new GuzzleClient();
     }
 
-    public function get($endpoint, $options = null)
+    public function get($options = null)
     {
         if(is_array($options['query']))
         {
-            $this->options = array_merge($this->options, $options['query']);
+            $this->options['query'] = array_merge($this->options['query'], $options['query']);
         }
 
-        return $this->guzzleClient->request("GET", $endpoint, $options);
+        $result = $this->guzzleClient->request("GET", "http://www.omdbapi.com", $this->options);
+        return json_decode($result->getBody()->getContents());
     }
 
 }

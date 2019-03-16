@@ -29,6 +29,7 @@ class ClientTest extends TestCase
    {
        $client = new Omdb;
        $client->search('shawshank', ['y' => 2018]);
+       
    }
 
     /** @test */
