@@ -29,23 +29,13 @@ class Connection
 
     private function __construct()
     {
-        $this->options = [
-            'query' => [
-                'apikey' => 'b5976b7'
-            ]
-        ];
-
         $this->guzzleClient = new GuzzleClient();
     }
 
+
     public function get($options = null)
     {
-        if(is_array($options['query']))
-        {
-            $this->options['query'] = array_merge($this->options['query'], $options['query']);
-        }
-
-        $result = $this->guzzleClient->request("GET", "http://www.omdbapi.com", $this->options);
+        $result = $this->guzzleClient->request("GET", "http://www.omdbapi.com", $options);
         return json_decode($result->getBody()->getContents());
     }
 

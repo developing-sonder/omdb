@@ -25,6 +25,18 @@ class ClientTest extends TestCase
     }
 
     /** @test */
+    public function client_can_find_specific_movie()
+    {
+        $client = new Omdb();
+        $something = $client->find('tt0111161');
+
+        $this->assertInstanceOf(\stdClass::class, $something);
+        $this->assertEquals('The Shawshank Redemption', $something->Title);
+    }
+
+
+
+    /** @test */
     public function client_can_accept_query()
     {
         $query = new Query;
@@ -74,7 +86,6 @@ class ClientTest extends TestCase
         $this->assertNotEquals($mov1->imdbID, $mov2->imdbID);
 
     }
-
 
     public function client_can_find_movie()
     {

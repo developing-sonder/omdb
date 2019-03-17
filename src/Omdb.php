@@ -29,6 +29,15 @@ class Omdb
         return $this->makeCall();
     }
 
+    public function find($id)
+    {
+        $this->query
+            ->clearOptions()
+            ->setId($id);
+
+        return $this->makeCall();
+    }
+
     public function next()
     {
         $page = $this->query->getPage() + 1;

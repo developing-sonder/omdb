@@ -16,10 +16,12 @@ class Query
     const RELEASE_YEAR_INDEX_KEY = 'y';
     const TYPE_INDEX_KEY = 't';
     const PAGE_INDEX_KEY = 'page';
+    const ID_INDEX_KEY = 'i';
+    const TITLE_INDEX_KEY = 't';
 
     public function __construct($options = [])
     {
-        $this->options = collect($options);
+        $this->options = collect($options)->merge(['apikey' => getenv("OMDB_API_KEY")]);
     }
 
     public function setSearchTerm($term)
@@ -76,6 +78,18 @@ class Query
     public function getPage()
     {
         return $this->{self::PAGE_INDEX_KEY} ?? 1;
+    }
+
+    public function setId($id)
+    {
+        $this->options->put(self::ID_INDEX_KEY, $id);
+        return $this;
+    }
+
+    public function clearOptions()
+    {
+        $this->options = $this->options->only('apikey');
+        return $this;
     }
 
 
