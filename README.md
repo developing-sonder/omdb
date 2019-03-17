@@ -15,7 +15,7 @@ You can install the package via composer:
 composer require developing-sonder/omdb
 ```
 
-Obtain an API Key from OMDB at: [http://www.omdbapi.com/apikey.aspx] (http://www.omdbapi.com/apikey.aspx)
+Obtain an API Key from OMDB at: http://www.omdbapi.com/apikey.aspx
 
 ## Usage
 Any call that includes a search term will return a stdClass object. The $obj->Search attribute will hold an array of the results.
