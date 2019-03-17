@@ -16,6 +16,7 @@ class Omdb
 
     public function search($q, $options = [])
     {
+
         if($q instanceof Query)
         {
             $this->query = $q;
@@ -25,12 +26,31 @@ class Omdb
         $this->query->setSearchTerm($q);
         $this->query->addOptions($options);
 
-        return $this->makeCall($this->query->toUrl());
+        return $this->makeCall();
+    }
+
+    public function next()
+    {
+        $page = $this->query->getPage() + 1;
+        $page = ($page >= 101)? 100 : $page;
+        $this->query->setPage($page);
+
+        return $this->makeCall();
+    }
+
+    public function prev()
+    {
+        $page = $this->query->getPage() - 1;
+        $page = ($page <= 0)? 1 : $page;
+
+        $this->query->setPage($page);
+        return $this->makeCall();
     }
 
     public function makeCall($options = null)
     {
         $connection = Connection::instance();
-        return $connection->get($options);
+        $this->query->addOptions($options);
+        return $connection->get($this->query->toUrl());
     }
 }

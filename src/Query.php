@@ -12,6 +12,10 @@ namespace DevelopingSonder\Omdb;
 class Query
 {
     protected $options;
+    const SEARCH_INDEX_KEY = 's';
+    const RELEASE_YEAR_INDEX_KEY = 'y';
+    const TYPE_INDEX_KEY = 't';
+    const PAGE_INDEX_KEY = 'page';
 
     public function __construct($options = [])
     {
@@ -20,7 +24,7 @@ class Query
 
     public function setSearchTerm($term)
     {
-        $this->options->put('s', $term);
+        $this->options->put(self::SEARCH_INDEX_KEY, $term);
     }
 
     public function toUrl(): Array
@@ -30,7 +34,7 @@ class Query
 
     public function addOptions($options)
     {
-        $this->options->merge($options);
+        $this->options = $this->options->merge($options);
     }
 
     public function parameters()
@@ -40,23 +44,44 @@ class Query
 
     public function setType($type): Query
     {
-        $this->options->set('t', $type);
+        $this->options->put(self::TYPE_INDEX_KEY, $type);
         return $this;
+    }
+
+    public function getType()
+    {
+        return $this->{self::TYPE_INDEX_KEY} ?? "";
     }
 
     public function setReleaseYear($year): Query
     {
-        $this->options->set('y', $year);
+        $this->options->put(self::RELEASE_YEAR_INDEX_KEY, $year);
         return $this;
+    }
+
+    public function getReleaseYear()
+    {
+        return $this->{self::RELEASE_YEAR_INDEX_KEY} ?? "";
     }
 
     public function setPage($page): Query
     {
         if(!is_int($page) || !$this->isBetween($page))
-            throw \Exception("The page variable must be an integer between 1 and 100 (inclusive). The value you provided was: $page");
+            throw new \Exception("The page variable must be an integer between 1 and 100 (inclusive). The value you provided was: $page");
 
-        $this->options->set('page', $page);
+        $this->options->put(self::PAGE_INDEX_KEY, $page);
         return $this;
+    }
+
+    public function getPage()
+    {
+        return $this->{self::PAGE_INDEX_KEY} ?? 1;
+    }
+
+
+    private function isBetween($page): bool
+    {
+        return $page >= 1 && $page <= 100;
     }
 
     public function __set($name, $value)
@@ -69,8 +94,8 @@ class Query
         return $this->options->get($name);
     }
 
-    private function isBetween($page): bool
+    public function getOptions()
     {
-        return $page >= 1 && $page <= 100;
+        return $this->options;
     }
 }
