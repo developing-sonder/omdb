@@ -57,8 +57,15 @@ $results = $client->get();
 ### Testing
 
 ``` bash
-composer test
+vendor/bin/phpunit 
 ```
+Update your phpunit.xml.dist to include env variable with your OMDB_API_KEY;
+```xml
+<php>
+    <env name="OMDB_API_KEY" value="SETME"/>
+</php>
+```
+
 
 ### Road Map
 #### v0.1
