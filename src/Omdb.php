@@ -56,10 +56,16 @@ class Omdb
         return $this->makeCall();
     }
 
-    public function makeCall($options = null)
+    public function get()
+    {
+        return $this->makeCall();
+    }
+
+    protected function makeCall($options = null)
     {
         $connection = Connection::instance();
         $this->query->addOptions($options);
         return $connection->get($this->query->toUrl());
     }
+
 }

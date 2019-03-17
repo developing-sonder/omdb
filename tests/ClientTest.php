@@ -34,7 +34,21 @@ class ClientTest extends TestCase
         $this->assertEquals('The Shawshank Redemption', $something->Title);
     }
 
+    /** @test */
+    public function client_can_use_get_function()
+    {
+        $query = new Query();
+        $query->setReleaseYear('2019')
+            ->movie()
+            ->plot('short')
+            ->setSearchTerm('lego');
 
+        $client = new Omdb($query);
+        $results = $client->get();
+
+        $this->assertObjectHasAttribute('Response', $results);
+        $this->assertEquals('True', $results->Response);
+    }
 
     /** @test */
     public function client_can_accept_query()

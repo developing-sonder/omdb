@@ -15,14 +15,43 @@ You can install the package via composer:
 composer require developing-sonder/omdb
 ```
 
-## Usage
+Obtain an API Key from OMDB at: [http://www.omdbapi.com/apikey.aspx] (http://www.omdbapi.com/apikey.aspx)
 
+## Usage
+Any call that includes a search term will return a stdClass object. The $obj->Search attribute will hold an array of the results.
+
+Otherwise, a single object will be returned containing information about the first movie that met your criteria.
+
+The above distinction is handled by OMDB's API and outside the control of this package.
+
+#### Find by Title
 ``` php
 $omdb = new Omdb;
-$shawshank = $omdb->byId('The Shawshank Redemption');
+$shawshank = $omdb->byTitle('The Shawshank Redemption');
+```
 
-$theMatrix =
+#### Find By Id
+```php
+$omdb = new Omdb;
+$theMatrix = $omdb->find('tt0111161');
 
+```
+#### Search
+```php
+$omdb = new Omdb;
+$results = $client->search('wife');
+```
+
+#### Complicated Query
+```php
+$query = new Query();
+$query->setReleaseYear('2019')
+      ->movie()
+      ->plot('short')
+      ->setSearchTerm('lego');
+      
+$client = new Omdb($query);
+$results = $client->get();
 ```
 
 ### Testing

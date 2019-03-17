@@ -18,6 +18,7 @@ class Query
     const PAGE_INDEX_KEY = 'page';
     const ID_INDEX_KEY = 'i';
     const TITLE_INDEX_KEY = 't';
+    const PLOT_INDEX_KEY = 'plot';
 
     public function __construct($options = [])
     {
@@ -86,9 +87,33 @@ class Query
         return $this;
     }
 
-    public function clearOptions()
+    public function clearOptions(): Query
     {
         $this->options = $this->options->only('apikey');
+        return $this;
+    }
+
+    public function movie(): Query
+    {
+        $this->options->put(self::TYPE_INDEX_KEY, 'movie');
+        return $this;
+    }
+
+    public function series(): Query
+    {
+        $this->options->put(self::TYPE_INDEX_KEY, 'series');
+        return $this;
+    }
+
+    public function episode(): Query
+    {
+        $this->options->put(self::TYPE_INDEX_KEY, 'episode');
+        return $this;
+    }
+
+    public function plot($plotType): Query
+    {
+        $this->options->put(self::PLOT_INDEX_KEY, $plotType);
         return $this;
     }
 
